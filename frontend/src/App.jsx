@@ -81,13 +81,10 @@ function App() {
       );
     }
   }, []);
-
-  const spamRequests = useCallback(async (count) => {
+const spamRequests = useCallback(async (count) => {
   setIsSpamming(true);
-  for (let i = 0; i < count; i++) {
-    await sendRequest();
-    await new Promise((r) => setTimeout(r, 80));
-  }
+  setRequests([]); // reset counters so allowed/blocked reflect this burst only
+  await Promise.all(Array.from({ length: count }, () => sendRequest()));
   setIsSpamming(false);
 }, [sendRequest]);
 
