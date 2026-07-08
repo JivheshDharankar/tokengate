@@ -83,13 +83,13 @@ function App() {
   }, []);
 
   const spamRequests = useCallback(async (count) => {
-    setIsSpamming(true);
-    for (let i = 0; i < count; i++) {
-      await sendRequest();
-      await new Promise((r) => setTimeout(r, 80));
-    }
-    setIsSpamming(false);
-  }, [sendRequest]);
+  setIsSpamming(true);
+  for (let i = 0; i < count; i++) {
+    await sendRequest();
+    await new Promise((r) => setTimeout(r, 80));
+  }
+  setIsSpamming(false);
+}, [sendRequest]);
 
   useEffect(() => {
     setTokens(algo === "sliding" ? 0 : 10);
