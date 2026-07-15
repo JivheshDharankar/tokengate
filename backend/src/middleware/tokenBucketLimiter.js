@@ -7,7 +7,6 @@ async function tokenBucketLimiter(req, res, next) {
     const key = `ratelimit:${identifier}`;
 
     const { allowed, tokens, retryAfter } = await consumeToken(key);
-    console.log(`[RATE-LIMIT DEBUG] key=${key} allowed=${allowed} tokens=${tokens}`);
 
     if (!allowed) {
       res.set("Retry-After", retryAfter.toString());
@@ -24,9 +23,9 @@ async function tokenBucketLimiter(req, res, next) {
     res.set("X-RateLimit-Capacity", CAPACITY.toString());
     next();
   } catch (err) {
-  console.error("[RATE-LIMIT ERROR]", err.message, err.stack);
-  next();
-}
+    console.error("Rate limiter error:", err);
+    next();
+  }
 }
 
 module.exports = tokenBucketLimiter;
